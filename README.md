@@ -205,19 +205,9 @@ User ↔ Streamlit chat → BillAssistant.chat/answer_query → (hybrid search �
 
 ---
 
-## Where to extend / improve
-
-* **Stronger OCR fallback:** Add an open-source OCR path (Tesseract, PaddleOCR) when the DeepSeek checkpoint is unavailable.
-* **Configurable chunking/tokenization:** Use tokenizers (e.g., `tiktoken`) so chunk sizes match model token limits precisely.
-* **Persistent storage:** Add a database (SQLite/Postgres) to store processed bills and audit logs rather than keeping everything in memory.
-* **Authentication & secrets management:** Use Streamlit Secrets or `.env` and avoid printing API keys. Add an example `secrets.toml` for Streamlit Cloud deploys.
-* **Tests & CI:** Add unit tests for JSON repair, chunking, BM25 scoring, and simple end-to-end tests with small sample bills.
-
----
-
 ## Notes, tips & troubleshooting
 
-* **Model & memory**: Loading large models locally will use large amounts of RAM / VRAM. If you get `CUDA out of memory` errors, try reducing device_map usage or run on CPU.
+* **Model & memory**: Loading large models locally will use large amounts of RAM / VRAM. If you get `CUDA out of memory` errors, try reducing device_map usage.
 * **OCR/model not available**: If `self.model` or tokenizer fails to load (for example, because the checkpoint is not available), `model_run` will print a warning and return an empty string. In this case parsing will fail — use a supported OCR model or run the Colab notebook where the model files may be present.
 * **Flash-attn**: optional optimization; if build fails during `pip install`, remove it from `requirements.txt` and re-install.
 * **PDFs**: The app uses PyMuPDF (`fitz`) to convert PDF pages to PNGs. If PDF processing fails, ensure `PyMuPDF` is installed properly.
@@ -271,13 +261,3 @@ def load_assistant():
 This repository is provided as-is for demonstration / research / development purposes. No warranty. Adapt as needed.
 
 ---
-
-## Want help?
-
-If you want, I can:
-
-* Add a sample `secrets.toml` or `.env` example for Streamlit.
-* Create a smaller `requirements-lite.txt` that omits heavy packages like `flash-attn`.
-* Patch `assistant.py` to prefer environment `GROQ_API_KEY` when not running in Colab (I included a snippet above).
-
-Just tell me which you'd like and I will update the README or repository accordingly.
